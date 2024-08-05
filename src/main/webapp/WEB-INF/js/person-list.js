@@ -9,7 +9,6 @@ $(".search-button").on("click", function () {
     }),
     contentType: "application/json",
     success: function (response, status, xhr) {
-      //   console.log("data : : " + JSON.stringify(data));
       searchData(response.data);
       $("#total").text("Total: " + response.pagination.totalRecord);
     },
@@ -41,6 +40,7 @@ function searchData(data) {
 }
 
 function handleSearchInputChange(event) {
+  $(".table-containner table").children("tbody").remove();
   if (timer) clearTimeout(timer);
   timer = setTimeout(() => {
     $.ajax({
@@ -52,6 +52,7 @@ function handleSearchInputChange(event) {
       contentType: "application/json",
       success: function (response, status, xhr) {
         searchData(response.data);
+        $("#total").text("Total: " + response.pagination.totalRecord);
       },
       error: function (data, status, err) {},
       complete: function () {
