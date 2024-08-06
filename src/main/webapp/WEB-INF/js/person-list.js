@@ -8,6 +8,7 @@ var stateVar = {
 $(".search-infor input").keyup(handleSearchInputChange);
 
 $(".search-button").on("click", function () {
+  displayLoading();
   $.ajax({
     url: "http://localhost:8080/api/users",
     method: "post",
@@ -25,6 +26,7 @@ $(".search-button").on("click", function () {
     },
     error: function (data, status, err) {},
     complete: function () {
+      hideLoading();
     },
   });
 });
@@ -53,6 +55,7 @@ function handleSearchInputChange(event) {
   $(".table-containner table").children("tbody").remove();
   if (timer) clearTimeout(timer);
   timer = setTimeout(() => {
+    displayLoading();
     $.ajax({
       url: "http://localhost:8080/api/users",
       method: "post",
@@ -69,6 +72,7 @@ function handleSearchInputChange(event) {
       },
       error: function (data, status, err) {},
       complete: function () {
+        hideLoading();
       },
     });
   }, 300);
@@ -94,12 +98,14 @@ function createElementPage(totalPage) {
 
 // change page
 function changePage(currentPageElement) {
+  displayLoading();
   $.ajax({
     url: `http://localhost:8080/api/users?pageSize=${DEFAULT_PAGE_SIZE}&pageNum=${currentPageElement[0].textContent}`,
     method: "post",
     data: JSON.stringify({
       name: $(".search-button-name input").val(),
       phone: $(".search-button-phone input").val(),
+      key: $(".search-infor input").val(),
     }),
     contentType: "application/json",
     success: function (response, status, xhr) {
@@ -111,6 +117,7 @@ function changePage(currentPageElement) {
     },
     error: function (data, status, err) {},
     complete: function () {
+      hideLoading();
     },
   });
 }
@@ -128,3 +135,44 @@ $("#nextBtn").click(function() {
     changePage($("#pageIndex-" + (stateVar.currentPage + 1)));
   }
 });
+
+$("#exportData").click(function() {
+  displayLoading();
+  $.ajax({
+    url: "http://localhost:8080/api/users/export-excel",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({
+      name: $(".search-button-name input").val(),
+      phone: $(".search-button-phone input").val(),
+      key: $(".search-infor input").val(),
+    }),
+    xhrFields:{
+      responseType: 'blob'
+    },
+    success: function (result) {
+      console.log(result)
+      const downloadUrl = URL.createObjectURL(result);
+      const a = document.createElement("a");
+      a.href = downloadUrl;
+      a.download = "user-data-export.xls";
+      document.body.appendChild(a);
+      a.click();
+    },
+    error: function (data, status, err) {},
+    complete: function () {
+      hideLoading();
+    },
+  });
+});
+
+// loading
+function displayLoading() {
+  $("#loading").addClass("display");
+  $(".loading-container").addClass("display");
+}
+
+function hideLoading() {
+  $("#loading").removeClass("display");
+  $(".loading-container").removeClass("display");
+}

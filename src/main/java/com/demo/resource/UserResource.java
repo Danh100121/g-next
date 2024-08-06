@@ -1,5 +1,6 @@
 package com.demo.resource;
 
+import com.demo.dto.ResourceDto;
 import com.demo.dto.request.RemoveUsersReq;
 import com.demo.dto.request.UpsertUserReq;
 import com.demo.dto.request.UserCriteria;
@@ -12,13 +13,11 @@ import com.demo.repository.TeamRepository;
 import com.demo.repository.UserRepository;
 import com.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -55,9 +54,15 @@ public class UserResource {
 
     @PostMapping("/export-excel")
     public ResponseEntity<?> exportDataUsers(@RequestBody(required = false) UserCriteria userCriteria) {
-        return ResponseUtils.ok(userService.exportDataUsers(userCriteria));
-    }
+        ResourceDto resourceDTO = userService.exportDataUsers(userCriteria);
 
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Disposition",
+                "attachment; filename=" + resourceDTO.getFileName() + ".xlsx");
+
+        return ResponseEntity.ok().contentType(resourceDTO.getMediaType())
+                .headers(httpHeaders).body(resourceDTO.getResource());
+    }
 
     @GetMapping("/fake-data")
     public ResponseEntity<?> fakeData() throws IOException {

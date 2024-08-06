@@ -1,5 +1,7 @@
 package com.demo.service.impl;
 
+import com.demo.dto.ExcelMetadataDto;
+import com.demo.dto.ResourceDto;
 import com.demo.dto.UserDto;
 import com.demo.dto.request.RemoveUsersReq;
 import com.demo.dto.request.UpsertUserReq;
@@ -9,26 +11,18 @@ import com.demo.entity.User;
 import com.demo.exception.ServiceException;
 import com.demo.repository.TeamRepository;
 import com.demo.repository.UserRepository;
+import com.demo.service.ExcelService;
 import com.demo.service.MappingHelper;
 import com.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final MappingHelper mappingHelper;
     private final TeamRepository teamRepository;
+    private final ExcelService excelService;
 
     @Override
     public Page<?> getUsers(UserCriteria userCriteria, PagingReq pagingReq) {
@@ -86,8 +81,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<?> exportDataUsers(UserCriteria userCriteria) {
-        return userRepository
+    public ResourceDto exportDataUsers(UserCriteria userCriteria) {
+        var userData = userRepository
                 .findAll(userCriteria == null ? null : userCriteria.toSpecification())
                 .stream().map(e -> {
                     var res = mappingHelper.map(e, UserDto.class);
@@ -95,5 +90,33 @@ public class UserServiceImpl implements UserService {
                     return res;
                 })
                 .collect(Collectors.toList());
+
+
+        final var resourceDTO = excelService.exportExcel(prepareExcelData(userData));
+        resourceDTO.setFileName("user-data-export");
+        return resourceDTO;
+    }
+
+    public ExcelMetadataDto prepareExcelData(List<UserDto> userData) {
+        final var excelMetadataDTO = new ExcelMetadataDto();
+        excelMetadataDTO.setTableName("User data");
+        excelMetadataDTO.setHeaders(List.of("ID", "Name", "Gender", "Team", "Phone", "Email", "Birth date", "Address", "Status"));
+        List<Map<String, String>> metadata = new ArrayList<>();
+
+        for (var user : userData) {
+            Map<String, String> data = new HashMap<>();
+            data.put("ID", user.getId().toString());
+            data.put("Name", user.getName());
+            data.put("Gender", user.getGender().toString());
+            data.put("Team", user.getTeam());
+            data.put("Phone", user.getPhone());
+            data.put("Email", user.getEmail());
+            data.put("Birth date", user.getBirthDate().toString());
+            data.put("Address", user.getAddress());
+            data.put("Status", user.getStatus().toString());
+            metadata.add(data);
+        }
+        excelMetadataDTO.setDatas(metadata);
+        return excelMetadataDTO;
     }
 }
