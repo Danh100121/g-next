@@ -1,4 +1,12 @@
 var timer;
+const DEFAULT_PAGE_SIZE = 20;
+var stateVar = {
+  currentPage: 1,
+  totalPage: 0
+}
+
+$(".search-infor input").keyup(handleSearchInputChange);
+
 $(".search-button").on("click", function () {
   $.ajax({
     url: "http://localhost:8080/api/users",
@@ -11,10 +19,12 @@ $(".search-button").on("click", function () {
     success: function (response, status, xhr) {
       searchData(response.data);
       $("#total").text("Total: " + response.pagination.totalRecord);
+      createElementPage(response.pagination.totalPage);
+      stateVar.currentPage = 1;
+      stateVar.totalPage = response.pagination.totalPage;
     },
     error: function (data, status, err) {},
     complete: function () {
-      console.log("aaa");
     },
   });
 });
@@ -53,12 +63,68 @@ function handleSearchInputChange(event) {
       success: function (response, status, xhr) {
         searchData(response.data);
         $("#total").text("Total: " + response.pagination.totalRecord);
+        createElementPage(response.pagination.totalPage);
+        stateVar.currentPage = 1;
+        stateVar.totalPage = response.pagination.totalPage;
       },
       error: function (data, status, err) {},
       complete: function () {
-        console.log("aaa");
       },
     });
   }, 300);
 }
-$(".search-infor input").keyup(handleSearchInputChange);
+
+function createElementPage(totalPage) {
+  const numberPage = $(".number_page");
+  numberPage.empty();
+  for (let i = 1; i <= totalPage; i++) {
+    let numberPageElement = $("<a></a>");
+    numberPageElement.addClass("pageIndex");
+    numberPageElement.attr("id", "pageIndex-" + i);
+    if (i === 1) {
+      numberPageElement.addClass("active");
+    }
+    numberPageElement.text(i);
+    numberPageElement.click(function() {
+      changePage(numberPageElement);
+    });
+    numberPage.append(numberPageElement);
+  }
+}
+
+// change page
+function changePage(currentPageElement) {
+  $.ajax({
+    url: `http://localhost:8080/api/users?pageSize=${DEFAULT_PAGE_SIZE}&pageNum=${currentPageElement[0].textContent}`,
+    method: "post",
+    data: JSON.stringify({
+      name: $(".search-button-name input").val(),
+      phone: $(".search-button-phone input").val(),
+    }),
+    contentType: "application/json",
+    success: function (response, status, xhr) {
+      searchData(response.data);
+
+      $(".pageIndex").removeClass("active");
+      currentPageElement.eq(0).addClass("active");
+      stateVar.currentPage = Number(currentPageElement[0].textContent);
+    },
+    error: function (data, status, err) {},
+    complete: function () {
+    },
+  });
+}
+
+// click previousBtn
+$("#previousBtn").click(function() {
+  if (stateVar.currentPage - 1 > 0) {
+    changePage($("#pageIndex-" + (stateVar.currentPage - 1)));
+  }
+});
+
+// click nextBtn
+$("#nextBtn").click(function() {
+  if (stateVar.currentPage + 1 <= stateVar.totalPage) {
+    changePage($("#pageIndex-" + (stateVar.currentPage + 1)));
+  }
+});

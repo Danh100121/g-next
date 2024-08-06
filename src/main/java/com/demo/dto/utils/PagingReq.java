@@ -12,7 +12,7 @@ import javax.validation.constraints.Min;
 @Data
 public class PagingReq {
 
-    public static final int DEFAULT_PAGE_SIZE = 5000;
+    public static final int DEFAULT_PAGE_SIZE = 20;
     public static final int DEFAULT_PAGE_NUM = 1;
 
     @ApiParam(value = "Size of response's pageData. Minimum value is 1. Default is " + DEFAULT_PAGE_SIZE)
