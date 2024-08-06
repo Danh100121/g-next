@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create User</title>
+    <link rel="stylesheet" href="../css/create-person.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-container">
+        <div class="header">Create User</div>
+        <button type="button" class="btn-close" aria-label="Close">x</button>
+      </div>
+      <section class="page-content">
+        <form action="">
+          <div class="input-text">
+            <div id="id">
+              <label for="id">ID:</label>
+              <input type="text" id="id" name="id" />
+            </div>
+            <div id="name">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" />
+            </div>
+            <div id="email">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" />
+            </div>
+            <div id="dob">
+              <label for="birthdate">Birthdate:</label>
+              <input type="date" id="birthdate" name="birthdate" />
+            </div>
+            <div id="phone">
+              <label for="phone">Phone:</label>
+              <input type="text" id="phone" name="phone" />
+            </div>
+            <div id="address">
+              <label for="address">Address:</label>
+              <textarea id="address" name="address"></textarea>
+            </div>
+          </div>
+          <div class="radio">
+            <div id="gender">
+              <label>Gender:</label>
+              <input type="radio" id="male" name="gender" value="male" />
+              <label for="male">Male</label>
+              <input type="radio" id="female" name="gender" value="female" />
+              <label for="female">Female</label>
+            </div>
+
+            <div id="team">
+              <label>Team:</label>
+              <input type="radio" id="team1" name="team" value="team1" />
+              <label for="team1">SO</label>
+              <input type="radio" id="team2" name="team" value="team2" />
+              <label for="team2">SD</label>
+            </div>
+            <div id="status">
+              <label>Status:</label>
+              <input type="radio" id="active" name="status" value="active" />
+              <label for="active">Active</label>
+              <input
+                type="radio"
+                id="inactive"
+                name="status"
+                value="inactive"
+              />
+              <label for="inactive">Inactive</label>
+            </div>
+          </div>
+        </form>
+      </section>
+      <div class="footer-container">
+        <button type="submit">Create</button>
+      </div>
+    </div>
+  </body>
+</html>

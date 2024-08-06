@@ -2,10 +2,10 @@ var timer;
 const DEFAULT_PAGE_SIZE = 20;
 var stateVar = {
   currentPage: 1,
-  totalPage: 0
-}
+  totalPage: 0,
+};
 
-$(".search-infor input").keyup(handleSearchInputChange);
+$(".search-infor input").keyup(searchDebounce);
 
 $(".search-button").on("click", function () {
   $.ajax({
@@ -24,8 +24,7 @@ $(".search-button").on("click", function () {
       stateVar.totalPage = response.pagination.totalPage;
     },
     error: function (data, status, err) {},
-    complete: function () {
-    },
+    complete: function () {},
   });
 });
 
@@ -49,7 +48,7 @@ function searchData(data) {
   $(".table-containner table").append(tbody);
 }
 
-function handleSearchInputChange(event) {
+function searchDebounce(event) {
   $(".table-containner table").children("tbody").remove();
   if (timer) clearTimeout(timer);
   timer = setTimeout(() => {
@@ -68,8 +67,7 @@ function handleSearchInputChange(event) {
         stateVar.totalPage = response.pagination.totalPage;
       },
       error: function (data, status, err) {},
-      complete: function () {
-      },
+      complete: function () {},
     });
   }, 300);
 }
@@ -85,7 +83,7 @@ function createElementPage(totalPage) {
       numberPageElement.addClass("active");
     }
     numberPageElement.text(i);
-    numberPageElement.click(function() {
+    numberPageElement.click(function () {
       changePage(numberPageElement);
     });
     numberPage.append(numberPageElement);
@@ -100,6 +98,7 @@ function changePage(currentPageElement) {
     data: JSON.stringify({
       name: $(".search-button-name input").val(),
       phone: $(".search-button-phone input").val(),
+      key: $(".search-infor input").val()
     }),
     contentType: "application/json",
     success: function (response, status, xhr) {
@@ -110,20 +109,19 @@ function changePage(currentPageElement) {
       stateVar.currentPage = Number(currentPageElement[0].textContent);
     },
     error: function (data, status, err) {},
-    complete: function () {
-    },
+    complete: function () {},
   });
 }
 
 // click previousBtn
-$("#previousBtn").click(function() {
+$("#previousBtn").click(function () {
   if (stateVar.currentPage - 1 > 0) {
     changePage($("#pageIndex-" + (stateVar.currentPage - 1)));
   }
 });
 
 // click nextBtn
-$("#nextBtn").click(function() {
+$("#nextBtn").click(function () {
   if (stateVar.currentPage + 1 <= stateVar.totalPage) {
     changePage($("#pageIndex-" + (stateVar.currentPage + 1)));
   }
