@@ -158,7 +158,6 @@ input[type="text"] {
 table {
   width: 100%;
   border-collapse: collapse;
-  /* margin-left: 1%; */
   border: 1px solid #ddd;
   table-layout: auto;
 }
@@ -187,8 +186,37 @@ td {
   padding: 8px;
   text-align: left;
   border: 1px solid #ddd;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination_center {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  border: 1px solid #ddd;
+  font-size: 22px;
+}
+
+.pagination a.active {
+  background-color: gray;
+  color: white;
+  border: 1px solid gray;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
 }
