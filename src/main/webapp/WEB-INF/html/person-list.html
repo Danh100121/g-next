@@ -1,102 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link rel="stylesheet" href="../css/person-list.css" />
-  </head>
 
-  <body>
-    <div id="wrapper">
-      <header class="page-header">
-        <h2 id="content-header">Person</h2>
-        <div class="page-button">
-          <button class="fav" type="button">
-            <i class="fa fa-star-o"></i><span></span>
-          </button>
-          <button class="newWin" type="button">
-            <i class="fa fa-external-link"></i><span></span>
-          </button>
-        </div>
-        <div class="infor-header">
-          <p>Teams</p>
-          <span class="separator"></span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../css/person-list.css" />
+  <link rel="stylesheet" href="../css/create-person.css" />
+</head>
 
-          <p id="name">
-            PHAM TIEN DANH Assistant(Vietnam Build Center System Operation Team)
-          </p>
-        </div>
-      </header>
-      <section class="page-content">
-        <div class="search-containner">
-          <div class="search-button-form">
-            <div class="search-button-name">
-              <button id="label-search" type="button">Name</button>
-              <input type="text" placeholder="" name="Search" />
-              <button id="icon-search" type="submit">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-            <div class="search-button-phone">
-              <button id="label-search" type="button">Phone</button>
-              <input type="text" placeholder="" name="Search" />
-              <button id="icon-search" type="submit">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-            <div class="search-button">
-              <button type="submit">Search</button>
-            </div>
+<body>
+  <div id="wrapper">
+    <header class="page-header">
+      <h2 id="content-header">Person</h2>
+      <div class="page-button">
+        <button class="fav" type="button">
+          <i class="fa fa-star-o"></i><span></span>
+        </button>
+        <button class="newWin" type="button">
+          <i class="fa fa-external-link"></i><span></span>
+        </button>
+      </div>
+      <div class="infor-header">
+        <p>Teams</p>
+        <span class="separator"></span>
+
+        <p id="name">
+          PHAM TIEN DANH Assistant(Vietnam Build Center System Operation Team)
+        </p>
+      </div>
+    </header>
+    <section class="page-content">
+      <div class="search-containner">
+        <div class="search-button-form">
+          <div class="search-button-name">
+            <button id="label-search" type="button">Name</button>
+            <input id="input-search" type="text" placeholder="" name="Search" />
+            <button id="icon-search" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
           </div>
-        </div>
-        <div class="search-layout">
-          <div class="search-infor">
-            <i class="fa fa-search"></i>
-            <input type="text" placeholder="Search" name="Search" />
+          <div class="search-button-phone">
+            <button id="label-search" type="button">Phone</button>
+            <input id="input-search" type="text" placeholder="" name="Search" />
+            <button id="icon-search" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
           </div>
-          <div>
-            <p id="total">Total:</p>
+          <div class="search-button">
+            <button type="submit">Search</button>
           </div>
-          <div class="button-dowload">
-            <button type="submit">Create</button>
-          </div>
-        </div>
-        <div class="table-containner">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>BirthDate</th>
-                <th>Gender</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Team</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-      </section>
-      <div class="pagination_center">
-        <div class="pagination">
-          <a id="previousBtn">&laquo;</a>
-          <span class="number_page"></span>
-          <a id="nextBtn">&raquo;</a>
         </div>
       </div>
+      <div class="search-layout">
+        <div class="search-infor">
+          <i class="fa fa-search"></i>
+          <input id="input-search" type="text" placeholder="Search" name="Search" />
+        </div>
+        <div>
+          <p id="total">Total:</p>
+        </div>
+        <div class="button-dowload">
+          <button type="submit">Create</button>
+        </div>
+      </div>
+      <div class="table-containner">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>BirthDate</th>
+              <th>Gender</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Team</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </section>
+    <div class="pagination_center">
+      <div class="pagination">
+        <a id="previousBtn">&laquo;</a>
+        <span class="number_page"></span>
+        <a id="nextBtn">&raquo;</a>
+      </div>
     </div>
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.js"
-      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-      crossorigin="anonymous"
-    ></script>
-    <script src="../js/person-list.js"></script>
-  </body>
+    <div id="create-person-modal" class="modal"></div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+  <script src="../js/person-list.js"></script>
+</body>
+
 </html>

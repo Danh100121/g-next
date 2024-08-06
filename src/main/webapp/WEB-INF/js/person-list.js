@@ -7,7 +7,7 @@ var stateVar = {
 
 $(".search-infor input").keyup(searchDebounce);
 
-$(".search-button").on("click", function () {
+$(".search-button").on("click", function loadData() {
   $.ajax({
     url: "http://localhost:8080/api/users",
     method: "post",
@@ -98,7 +98,7 @@ function changePage(currentPageElement) {
     data: JSON.stringify({
       name: $(".search-button-name input").val(),
       phone: $(".search-button-phone input").val(),
-      key: $(".search-infor input").val()
+      key: $(".search-infor input").val(),
     }),
     contentType: "application/json",
     success: function (response, status, xhr) {
@@ -125,4 +125,35 @@ $("#nextBtn").click(function () {
   if (stateVar.currentPage + 1 <= stateVar.totalPage) {
     changePage($("#pageIndex-" + (stateVar.currentPage + 1)));
   }
+});
+
+// Khi click vào nút "Create"
+$(".button-dowload button").click(function () {
+  $("#create-person-modal").load(
+    "../html/create-person.html .container",
+    function () {
+      $("<link/>", {
+        rel: "stylesheet",
+        type: "text/css",
+        href: "../css/create-person.css",
+      }).appendTo("head");
+
+      $("<script/>", {
+        src: "../js/create-person.js",
+      }).appendTo("body");
+
+      $("#create-person-modal").css("display", "block");
+
+      $(".btn-close").click(function () {
+        $("#create-person-modal").css("display", "none");
+      });
+
+      // Đóng modal khi người dùng click ra ngoài modal content
+      // $(window).click(function (event) {
+      //   if ($(event.target).is("#create-person-modal")) {
+      //     $("#create-person-modal").css("display", "none");
+      //   }
+      // });
+    }
+  );
 });
