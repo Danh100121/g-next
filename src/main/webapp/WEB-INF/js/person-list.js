@@ -127,7 +127,7 @@ $("#nextBtn").click(function () {
   }
 });
 
-// Khi click vào nút "Create"
+// click "Create"
 $(".button-dowload button").click(function () {
   $("#create-person-modal").load(
     "../html/create-person.html .container",
@@ -148,7 +148,6 @@ $(".button-dowload button").click(function () {
         $("#create-person-modal").css("display", "none");
       });
 
-      // Đóng modal khi người dùng click ra ngoài modal content
       // $(window).click(function (event) {
       //   if ($(event.target).is("#create-person-modal")) {
       //     $("#create-person-modal").css("display", "none");

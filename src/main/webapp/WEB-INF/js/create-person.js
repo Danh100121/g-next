@@ -30,9 +30,9 @@ $("#addUser").on("click", function () {
     birthDate: $("#birthdate").val(),
     phone: $("#phone").val(),
     address: $("#address").val(),
-    gender: $("input[name='gender']:checked").val(),
-    team: $("input[name='team']:checked").val(),
-    status: $("input[name='status']:checked").val(),
+    gender: $(".gender select").val(),
+    team: $(".team select").val(),
+    status: $(".status select").val(),
   };
 
   $.ajax({
@@ -41,9 +41,8 @@ $("#addUser").on("click", function () {
     data: JSON.stringify(userData),
     contentType: "application/json",
     success: function (response) {
-      alert("User created successfully!");
       $("#create-person-modal").css("display", "none");
-      loadData();
+      // loadData();
     },
     error: function (xhr, status, error) {
       alert(JSON.parse(xhr.responseText).params.errors.join("\n"));
